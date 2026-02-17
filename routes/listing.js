@@ -40,6 +40,7 @@ router.post("/",
         const newListing = new Listing(req.body.listing);
 
         await newListing.save();
+        req.flash("success","New listing created");
         res.redirect("/listings");
     }));
 
@@ -47,6 +48,10 @@ router.post("/",
 router.get("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
+    if(!listing){
+        req.flash("error","Listing does not exist");
+        res.redirect("/listings");
+    }
     if (!listing) throw new ExpressError(404, "Listing not found");
     res.render("listings/show.ejs", { listing });
 }));
@@ -66,6 +71,7 @@ router.put("/:id",
 
         const { id } = req.params;
         await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+          req.flash("success","Listing Updated");
         res.redirect(`/listings/${id}`);
     }));
 
@@ -74,6 +80,7 @@ router.put("/:id",
 router.delete("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
+      req.flash("success","listing deleted");
     res.redirect("/listings");
 }));
 
