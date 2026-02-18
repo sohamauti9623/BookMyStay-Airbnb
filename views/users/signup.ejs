@@ -1,0 +1,42 @@
+<% layout("/layouts/boilerplate") %>
+
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light"><h2>    .  Wanderlust</h2>
+    <div class="col-10 col-sm-8 col-md-5 col-lg-4">
+        <div class="card shadow-sm rounded-4 p-4">
+            <h3 class="text-center mb-4 fw-bold">Create Your Listing</h3>
+
+            <form action="/signup" class="needs-validation" method="post" novalidate>
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input id="username" type="text" name="username" class="form-control" placeholder="Enter username" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input id="email" type="email" name="email" class="form-control" placeholder="Enter email" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" name="password" class="form-control" placeholder="Enter password" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Sign Up</button>
+
+            </form>
+
+            <p class="text-center mt-3 mb-0">
+                Already have an account? <a href="/login" class="text-decoration-none">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
