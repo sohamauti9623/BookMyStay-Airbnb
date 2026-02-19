@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const ExpressError = require("../utils/ExpressError.js");
-
+const{isLoggedIn}=require("../middleware.js");
 
 // validation function
 const validateListing = (req, res, next) => {
@@ -28,13 +28,16 @@ router.get("/", wrapAsync(async (req, res) => {
 }));
 
 // NEW - Form to create listing
-router.get("/new", (req, res) => {
+router.get("/new",isLoggedIn, (req, res) => {
+  
+    
     res.render("listings/new.ejs");
 });
 
 // CREATE - Add new listing
 router.post("/",
     validateListing,
+    isLoggedIn,
     wrapAsync(async (req, res) => {
 
         const newListing = new Listing(req.body.listing);
@@ -57,7 +60,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
 }));
 
 // EDIT - Form to edit listing
-router.get("/:id/edit", wrapAsync(async (req, res) => {
+router.get("/:id/edit",isLoggedIn, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     if (!listing) throw new ExpressError(404, "Listing not found");
@@ -67,6 +70,7 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
 // UPDATE - Update listing
 router.put("/:id",
     validateListing,
+    isLoggedIn,
     wrapAsync(async (req, res) => {
 
         const { id } = req.params;
@@ -77,7 +81,7 @@ router.put("/:id",
 
 
 // DELETE - Delete listing
-router.delete("/:id", wrapAsync(async (req, res) => {
+router.delete("/:id", isLoggedIn,wrapAsync(async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
       req.flash("success","listing deleted");

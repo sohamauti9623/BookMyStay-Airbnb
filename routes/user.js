@@ -11,6 +11,19 @@ router.get("/signup", (req, res) => {
     res.render("users/signup.ejs");
 });
 
+
+router.get("/logout",(req,res,next)=>{
+    req.logOut((err)=>{
+        if(err){
+          return  next(err);
+        }
+        req.flash("Success","Logged out successfully");
+        res.redirect("/listings");
+    });
+});
+
+
+
 // signup logic
 router.post("/signup", wrapAsync(async (req, res) => {
     try {
