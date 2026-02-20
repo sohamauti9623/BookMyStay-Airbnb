@@ -57,7 +57,7 @@ h3 { font-weight: 600; }
 }
 
 .navbar-brand:hover .fa-compass {
-    transform: rotate(720deg) scale(1.1);
+    transform: rotate(2000deg) scale(1.2);
 }
 
 
@@ -326,4 +326,7 @@ textarea.form-control {
 
 
 /* this is the best  */
+
+
+
 
