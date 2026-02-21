@@ -11,13 +11,14 @@ main()
     .catch((err) => {
         console.log(err);
     });
-    
+
 async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
 const initDB = async () => {
     await Listing.deleteMany({});
+    initData.data = initData.data.map((obj) => ({ ...obj, owner: "69953b333dc75e12e0a34815" }));
     await Listing.insertMany(initData.data);
     console.log("data was inserted");
 };
