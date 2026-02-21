@@ -12,7 +12,7 @@
             <div class="show-image">
                 <img src="<%= listing.image %>" class="show-img" />
             </div>
-
+ 
             <!-- RIGHT: CONTENT -->
             <div class="show-content">
 
@@ -40,7 +40,7 @@
                 </p>
 
                 <!-- ACTION BUTTONS -->
-                <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+              
                     <div class="show-actions">
                         <a href="/listings/<%= listing._id %>/edit" class="btn btn-danger">
                             ✏ Edit
@@ -51,7 +51,7 @@
                         </form>
                     </div>
 
-                    <% } %>
+                 
 
                         <hr>
 

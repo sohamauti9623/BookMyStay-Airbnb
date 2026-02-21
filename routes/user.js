@@ -26,7 +26,7 @@ router.get("/logout",(req,res,next)=>{
 
 
 // signup logic
-router.post("/signup", wrapAsync(async (req, res) => {
+router.post("/signup", wrapAsync(async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
 

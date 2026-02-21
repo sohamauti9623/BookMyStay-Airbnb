@@ -1,22 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const { listingSchema } = require("../schema.js");
+
 const Listing = require("../models/listing.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { isLoggedIn } = require("../middleware.js");
 
-// validation function
-const validateListing = (req, res, next) => {
-  const { error } = listingSchema.validate(req.body);
-
-  if (error) {
-    const errMsg = error.details.map((el) => el.message).join(",");
-    return next(new ExpressError(400, errMsg));
-  }
-
-  next();
-};
+const { isOwner, isLoggedIn ,validateListing} = require("../middleware.js");
 
 // INDEX - Show all listings
 router.get(
@@ -57,11 +45,8 @@ router.get(
       .populate("owner");
     if (!listing) {
       req.flash("error", "Listing does not exist");
-      res.redirect("/listings");
+      return res.redirect("/listings");
     }
-
-    if (!listing) throw new ExpressError(404, "Listing not found");
-    console.log(listing);
     res.render("listings/show.ejs", { listing });
   }),
 );
@@ -70,6 +55,7 @@ router.get(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -81,10 +67,23 @@ router.get(
 // UPDATE - Update listing
 router.put(
   "/:id",
-  validateListing,
   isLoggedIn,
+  isOwner,
+  validateListing,
+
   wrapAsync(async (req, res) => {
-    const { id } = req.params;
+    let { id } = req.params;
+
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      req.flash("error", "Listing does not exist");
+      return res.redirect("/listings");
+    }
+    if (res.locals.currUser && !listing.owner.equals(res.locals.currUser._id)) {
+      req.flash("error", "You don't have permission to edit...");
+      return res.redirect(`/listings/${id}`);
+    }
+
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     req.flash("success", "Listing Updated");
     res.redirect(`/listings/${id}`);
@@ -95,6 +94,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
