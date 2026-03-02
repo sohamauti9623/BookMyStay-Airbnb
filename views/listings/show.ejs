@@ -12,7 +12,7 @@
             <div class="show-image">
                 <img src="<%= listing.image %>" class="show-img" />
             </div>
- 
+
             <!-- RIGHT: CONTENT -->
             <div class="show-content">
 
@@ -40,7 +40,7 @@
                 </p>
 
                 <!-- ACTION BUTTONS -->
-              
+                <% if(currUser && listing.owner._id.equals(currUser._id)) {%>
                     <div class="show-actions">
                         <a href="/listings/<%= listing._id %>/edit" class="btn btn-danger">
                             ✏ Edit
@@ -51,33 +51,35 @@
                         </form>
                     </div>
 
-                 
+                    <% } %>
 
                         <hr>
 
                         <!-- REVIEW FORM -->
-                        <h4>Leave a review</h4>
+                        <% if(currUser) { %>
+                            <h4>Leave a review</h4>
 
-                        <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation"
-                            novalidate>
+                            <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation"
+                                novalidate>
 
-                            <div class="mb-3 mt-3">
-                                <label for="rating" class="form-label"><b>Rating</b></label>
-                                <input type="range" min="1" max="5" value="3" name="review[rating]" id="rating"
-                                    class="form-range" required>
-                            </div>
-
-                            <div class="mb-3 mt-3">
-                                <label for="comment" class="form-label"><b>Comment</b></label>
-                                <textarea class="form-control" name="review[comment]" id="comment" rows="4"
-                                    required></textarea>
-                                <div class="invalid-feedback">
-                                    Please enter a review comment
+                                <div class="mb-3 mt-3">
+                                    <label for="rating" class="form-label"><b>Rating</b></label>
+                                    <input type="range" min="1" max="5" value="3" name="review[rating]" id="rating"
+                                        class="form-range" required>
                                 </div>
-                            </div>
 
-                            <button class="btn btn-outline-dark">Submit</button>
-                        </form>
+                                <div class="mb-3 mt-3">
+                                    <label for="comment" class="form-label"><b>Comment</b></label>
+                                    <textarea class="form-control" name="review[comment]" id="comment" rows="4"
+                                        required></textarea>
+                                    <div class="invalid-feedback">
+                                        Please enter a review comment
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-outline-dark">Submit</button>
+                            </form>
+                            <% } %>
 
             </div> <!-- show-content -->
 
@@ -97,7 +99,9 @@
             <% for (let review of listing.reviews) { %>
                 <div class="card col-md-5 mb-3 mx-2">
                     <div class="card-body">
-                        <h5 class="card-title">Soham</h5>
+                        <h5 class="card-title">
+                            <%=review.author.username%>
+                        </h5>
 
                         <p class="card-text">
                             <%= review.comment %>

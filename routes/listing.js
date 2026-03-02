@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 
 const Listing = require("../models/listing.js");
 
-const { isOwner, isLoggedIn ,validateListing} = require("../middleware.js");
+const { isOwner, isLoggedIn, validateListing } = require("../middleware.js");
 
 // INDEX - Show all listings
 router.get(
@@ -41,7 +41,10 @@ router.get(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id)
-      .populate("reviews")
+      .populate({
+        path: "reviews",
+        populate: { path: "author" },
+      })
       .populate("owner");
     if (!listing) {
       req.flash("error", "Listing does not exist");
