@@ -222,13 +222,16 @@ textarea.form-control {
 
 .show-card {
     display: flex;
-    gap: 3rem;
+    flex-wrap: wrap; /* allow content to stack on small screens */
+    gap: 2rem;
+    margin: 0 auto; /* center horizontally */
+    max-width: 1100px; /* restrict extra wide screens */
     background: #fff;
     border-radius: 1.2rem;
     box-shadow: 0 20px 50px rgba(0,0,0,.08);
     overflow: hidden;
+    padding: 1rem; /* optional for spacing */
 }
-
 .show-image { flex: 1.2; overflow: hidden; }
 
 .show-img {
@@ -326,7 +329,4 @@ textarea.form-control {
 
 
 /* this is the best  */
-
-
-
 

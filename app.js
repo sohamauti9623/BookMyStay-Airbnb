@@ -14,7 +14,7 @@ const User = require("./models/user");
 const ExpressError = require("./utils/ExpressError");
 
 // ===== Routes =====
-const listingsRouter = require("./routes/listing.js");
+const listingsRouter = require("./routes/listings.js");
 const reviewsRouter = require("./routes/reviews.js");
 const userRouter = require("./routes/user.js");
 
