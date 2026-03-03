@@ -1,56 +1,47 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
 const wrapAsync = require("../utils/wrapAsync.js");
-
 const Listing = require("../models/listings.js");
-
+const listingController = require("../controllers/listings.js");
 const { isOwner, isLoggedIn, validateListing } = require("../middleware.js");
 
-const listingController = require("../controllers/listings.js");
+/* ===========================
+   ROUTES FOR LISTINGS
+=========================== */
 
-const multer = require("multer");
-const upload=multer({dest:'uploads/'});
-
+// INDEX & CREATE
 router
   .route("/")
-  .get(wrapAsync(listingController.index))
-  .post(validateListing, isLoggedIn, wrapAsync(listingController.createNew));
+  .get(wrapAsync(listingController.index)) // INDEX - Show all listings
+  // .post(isLoggedIn, validateListing, wrapAsync(listingController.createNew))
+  .post(upload.single("listing[image]"), (req, res) => {
+    res.send(req.file);
+  }); // CREATE - Add new listing
 
-// INDEX - Show all listings
-
-// NEW - Form to create listing
-
+// NEW - Form to create a new listing
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
-// CREATE - Add new listing
-
-router;
-// SHOW - Show a single listing
+// SHOW, UPDATE, DELETE
 router
   .route("/:id")
-  .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyLinsting))
-  .get(wrapAsync(listingController.showListings))
+  .get(wrapAsync(listingController.showListings)) // SHOW - Show a single listing
   .put(
     isLoggedIn,
     isOwner,
     validateListing,
-
     wrapAsync(listingController.updateListing),
-  );
+  ) // UPDATE - Update listing
+  .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyLinsting)); // DELETE - Delete listing
 
-// EDIT - Form to edit listing
-
+// EDIT - Form to edit a listing
 router.get(
   "/:id/edit",
   isLoggedIn,
   isOwner,
   wrapAsync(listingController.editListing),
 );
-
-// UPDATE - Update listing
-
-// DELETE - Delete listing
-
-router;
 
 module.exports = router;

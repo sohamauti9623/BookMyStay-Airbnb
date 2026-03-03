@@ -330,3 +330,79 @@ textarea.form-control {
 
 /* this is the best  */
 
+/* =================================
+   CONTAINER & LAYOUT FIX
+================================= */
+.container {
+    width: 90%; /* flexible width */
+    max-width: 1200px; /* prevent too wide screens */
+    margin: 0 auto;
+    padding: 0 1rem;
+    flex: 1;
+}
+
+/* All Listings page */
+.listings-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center; /* center all cards */
+}
+
+.listing-card {
+    flex: 1 1 calc(25% - 1.5rem); /* flexible 4 per row */
+    min-width: 220px; /* prevent too small */
+    max-width: 100%; /* stay inside container */
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    transition: .3s ease;
+}
+
+/* Tablet: 2 per row */
+@media (max-width: 992px) {
+    .listing-card { flex: 1 1 calc(50% - 1rem); }
+}
+
+/* Mobile: 1 per row */
+@media (max-width: 576px) {
+    .listing-card { flex: 1 1 100%; }
+}
+
+/* Single Listing page */
+.show-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+}
+
+.show-card {
+    display: flex;
+    flex-wrap: wrap; /* stack on small screens */
+    gap: 2rem;
+    width: 100%;
+    background: #fff;
+    border-radius: 1.2rem;
+    box-shadow: 0 20px 50px rgba(0,0,0,.08);
+    overflow: hidden;
+    padding: 1rem;
+}
+
+.show-image { flex: 1 1 45%; min-width: 250px; }
+.show-content { flex: 1 1 45%; min-width: 250px; padding: 2rem; }
+
+.show-img {
+    width: 100%;
+    height: auto; /* adjust with content */
+    object-fit: cover;
+}
+
+/* Review cards inside show page */
+.card {
+    flex: 1 1 45%;
+    min-width: 220px;
+    margin-bottom: 1rem;
+}
