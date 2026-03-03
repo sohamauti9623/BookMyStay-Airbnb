@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const upload = multer ({ dest: "uploads/" });
 
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listings.js");

@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
+
+
+
 // ===== Core Packages =====
 const express = require("express");
 const mongoose = require("mongoose");
@@ -21,7 +27,6 @@ const userRouter = require("./routes/user.js");
 const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
-
 // ================= DATABASE =================
 async function main() {
   await mongoose.connect(MONGO_URL);
@@ -30,18 +35,15 @@ main()
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
-
 // ================= VIEW ENGINE =================
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-
 // ================= MIDDLEWARE =================
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-
 
 // ================= SESSION CONFIG =================
 const sessionOptions = {
@@ -49,10 +51,10 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: true,
   cookie: {
-    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,  // 7 days
-    maxAge: 7 * 24 * 60 * 60 * 1000,              
-    httpOnly: true
-  }
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
 };
 
 app.use(session(sessionOptions));
@@ -64,15 +66,13 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
 // ================= FLASH MESSAGES (global) =================
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
-  res.locals.currUser=req.user;
+  res.locals.currUser = req.user;
   next();
 });
-
 
 // //Demo User
 
@@ -86,33 +86,26 @@ app.use((req, res, next) => {
 //   res.send(registeredUser);
 // });
 
-  
-
-
 // ================= ROUTES =================
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
-app.use("/",userRouter);
-
+app.use("/", userRouter);
 
 // ================= ROOT =================
 app.get("/", (req, res) => {
   res.redirect("/listings");
 });
 
-
 // ================= 404 =================
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
-
 
 // ================= ERROR HANDLER =================
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong" } = err;
   res.status(statusCode).render("error.ejs", { message });
 });
-
 
 // ================= SERVER =================
 app.listen(8080, () => {
