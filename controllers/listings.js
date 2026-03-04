@@ -152,3 +152,24 @@ module.exports.destroyListing = async (req, res) => {
   req.flash("success", "Listing deleted");
   res.redirect("/listings");
 };
+
+// GET Index
+module.exports.index = async (req, res) => {
+    let { search } = req.query;
+    let allListings;
+
+    if (search) {
+        // Find listings where title or location matches the search query (case-insensitive)
+        allListings = await Listing.find({
+            $or: [
+                { title: { $regex: search, $options: "i" } },
+                { location: { $regex: search, $options: "i" } },
+                { country: { $regex: search, $options: "i" } }
+            ]
+        });
+    } else {
+        allListings = await Listing.find({});
+    }
+    
+    res.render("listings/index.ejs", { allListings });
+};

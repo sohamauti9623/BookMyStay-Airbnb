@@ -1,12 +1,7 @@
-/* =================================
-   GLOBAL ENHANCEMENTS
-================================= */
+/* =========================================
+   1. CORE & GLOBAL ANIMATIONS
+   ========================================= */
 html { scroll-behavior: smooth; }
-
-::selection {
-    background: rgba(254,66,77,.25);
-    color: #111;
-}
 
 body {
     background: #f7f7f7;
@@ -14,15 +9,27 @@ body {
     flex-direction: column;
     min-height: 100vh;
     font-family: "Plus Jakarta Sans", sans-serif;
+    animation: fadeIn 0.6s ease-in-out;
 }
 
-.container { flex: 1; }
-h3 { font-weight: 600; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
+.container {
+    flex: 1;
+    width: 94%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
 
-/* =================================
-   NAVBAR
-================================= */
+::selection { background: rgba(254,66,77,.25); color: #111; }
+
+/* =========================================
+   2. NAVBAR & BRANDING
+   ========================================= */
 .navbar {
     min-height: 64px;
     background: #fff;
@@ -35,20 +42,16 @@ h3 { font-weight: 600; }
     transition: .25s ease;
 }
 
-.nav-link:hover { transform: translateY(-1px); }
-
 .nav-link::after {
     content: "";
     position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0%;
-    height: 2px;
+    left: 0; bottom: -4px;
+    width: 0%; height: 2px;
     background: #fe424d;
     transition: width .25s ease;
 }
 
-.nav-link:hover::after { width: 200%; }
+.nav-link:hover::after { width: 100%; }
 
 .fa-compass {
     color: #fe424d;
@@ -56,224 +59,113 @@ h3 { font-weight: 600; }
     transition: transform .4s ease;
 }
 
-.navbar-brand:hover .fa-compass {
-    transform: rotate(2000deg) scale(1.2);
+.navbar-brand:hover .fa-compass { transform: rotate(2000deg) scale(1.2); }
+
+/* =========================================
+   3. AIRBNB FILTERS (Horizontal Scroll)
+   ========================================= */
+#filters {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    align-items: center;
+    padding: 1.5rem 0 1rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
+#filters::-webkit-scrollbar { display: none; }
 
-/* =================================
-   BUTTONS
-================================= */
-.btn:active { transform: scale(.97); }
-
-.btn-dark,
-.show-actions a {
-    background: #fe424d;
-    border: none;
-    color: #fff;
+.filter {
+    text-align: center;
+    margin-right: 2.5rem;
+    opacity: 0.7;
+    transition: 0.2s ease;
+    cursor: pointer;
+    flex: 0 0 auto;
 }
 
-.btn-dark:hover,
-.show-actions a:hover {
-    background: #e63b45;
-    box-shadow: 0 8px 20px rgba(254,66,77,.4);
-}
+.filter:hover { opacity: 1; border-bottom: 2px solid #fe424d; }
+.filter i { font-size: 1.2rem; }
+.filter p { font-size: 0.85rem; font-weight: 600; margin-top: 0.2rem; }
 
-.show-actions button {
-    background: #111;
-    color: #fff;
-}
+/* =========================================
+   4. LISTING CARDS (Index Page Grid)
+   ========================================= */
+.listing-link { text-decoration: none; color: inherit; }
 
-.show-actions button:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,.4);
-}
-
-
-/* =================================
-   FORM BASE
-================================= */
-form {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,.05);
-}
-
-.form-control {
-    border-radius: .6rem;
-    border: 1px solid #ddd;
-    padding: .8rem 1rem;
-}
-
-.form-control:focus {
-    border-color: #fe424d;
-    box-shadow: 0 0 0 .15rem rgba(254,66,77,.25);
-}
-
-textarea.form-control {
-    resize: vertical;
-    min-height: 120px;
-}
-
-
-/* =================================
-   FLOATING LABELS (NEW)
-   Use with .form-floating
-================================= */
-.form-floating {
-    position: relative;
-}
-
-.form-floating > label {
-    color: #777;
-    font-weight: 500;
-}
-
-.form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label {
-    color: #fe424d;
-}
-
-
-/* =================================
-   GLASS AUTH PAGE
-================================= */
-.auth-page {
-    background:
-        radial-gradient(circle at 20% 20%, rgba(254,66,77,.15), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(0,0,0,.08), transparent 40%),
-        linear-gradient(135deg, #f7f7f7, #ececec);
-}
-
-.glass-card {
-    background: rgba(255,255,255,.55) !important;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,.6);
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.12),
-        inset 0 1px 0 rgba(255,255,255,.6);
-    transition: .35s ease;
-}
-
-.glass-card:hover {
-    transform: translateY(-4px);
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.18),
-        inset 0 1px 0 rgba(255,255,255,.7);
-}
-
-.glass-card form {
-    background: transparent;
-    box-shadow: none;
-    padding: 0;
-}
-
-.glass-card .form-control {
-    background: rgba(255,255,255,.7);
-    backdrop-filter: blur(6px);
-}
-
-
-/* =================================
-   LISTING CARDS
-================================= */
-.card {
-    border-radius: 1rem;
-    transition: .3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 45px rgba(0,0,0,.12);
-}
-
-.listing-card,
-.card-body {
-    background: transparent !important;
+.listing-card {
     border: none !important;
-    box-shadow: none !important;
-    padding-top: .8rem;
+    background: transparent !important;
+    margin-bottom: 2rem;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .card-img-top {
-    border-radius: 1.3rem;
-    height: 250px;
-    width: 100%;
-    object-fit: cover;
-    box-shadow: 0 20px 50px rgba(0,0,0,.18);
-    transition: .4s ease;
+    height: 18rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    border-radius: 1.3rem !important;
+    transition: 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-.card:hover .card-img-top {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 30px 70px rgba(0,0,0,.28);
+.listing-card:hover .card-img-top {
+    transform: translateY(-5px);
+    filter: brightness(0.9);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
 }
 
-
-/* =================================
-   SHOW PAGE
-================================= */
-.show-container {
-    max-width: 1200px;
-    margin: 3rem auto;
-    padding: 0 1.5rem;
-}
+/* =========================================
+   5. SHOW PAGE (Detailed View)
+   ========================================= */
+.show-container { max-width: 1200px; margin: 3rem auto; padding: 0 1.5rem; }
 
 .show-card {
     display: flex;
-    flex-wrap: wrap; /* allow content to stack on small screens */
+    flex-wrap: wrap;
     gap: 2rem;
-    margin: 0 auto; /* center horizontally */
-    max-width: 1100px; /* restrict extra wide screens */
     background: #fff;
     border-radius: 1.2rem;
     box-shadow: 0 20px 50px rgba(0,0,0,.08);
-    overflow: hidden;
-    padding: 1rem; /* optional for spacing */
+    padding: 1rem;
 }
-.show-image { flex: 1.2; overflow: hidden; }
+
+.show-left, .show-content { flex: 1; min-width: 300px; }
+
+/* The container that handles the crop/zoom */
+.show-image { 
+    overflow: hidden; 
+    border-radius: 12px; 
+    flex: 1.2;
+}
 
 .show-img {
     width: 100%;
-    height: 100%;
+    height: 420px;
     object-fit: cover;
-    transition: .6s ease;
+    transition: transform 0.6s ease; /* Smooth zoom transition */
 }
 
-.show-image:hover .show-img { transform: scale(1.08); }
+/* Zoom effect trigger */
+.show-image:hover .show-img { transform: scale(1.1); }
 
-.show-content { flex: 1; padding: 3rem 2.5rem; }
-
-.show-title { font-size: 2rem; font-weight: 600; }
-.show-desc { color: #555; line-height: 1.6; }
-.show-price { font-size: 1.8rem; color: #fe424d; }
-.show-location { color: #777; }
-
-.show-actions {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    margin-top: 2rem;
+#map {
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    margin-top: 1rem;
 }
 
-.show-actions a,
-.show-actions button {
-    padding: .7rem 1.5rem;
-    border-radius: .6rem;
-    border: none;
-}
+/* =========================================
+   6. FORMS, BUTTONS & FOOTER
+   ========================================= */
+.btn-dark { background: #fe424d; border: none; color: #fff; padding: .6rem 1.2rem; border-radius: .6rem; }
+.btn-dark:hover { background: #e63b45; box-shadow: 0 8px 20px rgba(254,66,77,0.4); }
 
-.show-actions form {
-    background: none;
-    padding: 0;
-    box-shadow: none;
-}
+form { background: #fff; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,.05); }
+.form-control:focus { border-color: #fe424d; box-shadow: 0 0 0 .15rem rgba(254,66,77,0.25); }
 
-
-/* =================================
-   FOOTER
-================================= */
 .f-info {
     height: 8rem;
     background: #ebebeb;
@@ -282,193 +174,211 @@ textarea.form-control {
     align-items: center;
 }
 
-.f-info-links a {
-    color: #222;
-    text-decoration: none;
-}
-
-
-/* =================================
-   RESPONSIVE
-================================= */
+/* =========================================
+   7. RESPONSIVE MEDIA QUERIES
+   ========================================= */
 @media (max-width: 900px) {
     .show-card { flex-direction: column; }
-    .show-image { height: 50vh; }
+    .show-img { height: 300px; }
+    .container { padding: 0 1rem; }
 }
 
-@media (max-width: 576px) {
-    .nav-link { padding: .6rem .9rem; }
-    .show-actions { flex-wrap: wrap; gap: 1rem; }
-    .glass-card { backdrop-filter: blur(14px); }
-}
+/* =========================================
+   TAX TOGGLE & SWITCH STYLING
+   ========================================= */
 
-.card-img-overlay { display: none !important; }
-
-
-/* =================================
-   BRAND
-================================= */
-.wanderlust-brand {
-    background: linear-gradient(90deg, #111, #444);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 2.3rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-align: center;
-    transition: .3s ease;
-}
-
-.brand-dot {
-    color: #fe424d;
-    -webkit-text-fill-color: #fe424d;
-    margin-right: 2px;
-}
-
-.wanderlust-brand:hover { transform: translateY(-2px); }
-
-
-/* this is the best  */
-
-/* =================================
-   CONTAINER & LAYOUT FIX
-================================= */
-.container {
-    width: 90%; /* flexible width */
-    max-width: 1200px; /* prevent too wide screens */
-    margin: 0 auto;
-    padding: 0 1rem;
-    flex: 1;
-}
-
-/* All Listings page */
-.listings-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center; /* center all cards */
-}
-
-.listing-card {
-    flex: 1 1 calc(25% - 1.5rem); /* flexible 4 per row */
-    min-width: 220px; /* prevent too small */
-    max-width: 100%; /* stay inside container */
-    box-sizing: border-box;
-    background: #fff;
+/* The outer box that holds the switch */
+.tax-toggle {
+    border: 1px solid #ddd;
     border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,.08);
-    transition: .3s ease;
-}
-
-/* Tablet: 2 per row */
-@media (max-width: 992px) {
-    .listing-card { flex: 1 1 calc(50% - 1rem); }
-}
-
-/* Mobile: 1 per row */
-@media (max-width: 576px) {
-    .listing-card { flex: 1 1 100%; }
-}
-
-/* Single Listing page */
-.show-container {
-    width: 90%;
-    max-width: 1100px;
-    margin: 3rem auto;
+    height: 3.5rem;
     padding: 0 1rem;
-}
-
-.show-card {
+    margin-left: auto; /* Pushes it to the right of filters */
     display: flex;
-    flex-wrap: wrap; /* stack on small screens */
-    gap: 2rem;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.tax-toggle:hover {
+    border-color: #fe424d;
+    cursor: pointer;
+}
+
+/* Customizing the Bootstrap Switch color */
+.form-check-input:checked {
+    background-color: #fe424d !important;
+    border-color: #fe424d !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(254, 66, 77, 0.25) !important;
+    border-color: #fe424d !important;
+}
+
+/* The label text next to the switch */
+.tax-toggle label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #444;
+}
+
+/* Logic for showing/hiding tax info */
+.tax-info {
+    display: none; /* Hidden by default */
+    color: #fe424d;
+    font-weight: 600;
+}
+
+/* =========================================
+   MOBILE FIX FOR TOGGLE
+   ========================================= */
+@media (max-width: 900px) {
+    .tax-toggle {
+        margin-left: 0;
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Fix for the Filters + Toggle Alignment */
+.filters-wrapper {
+    display: flex;
+    align-items: center;
     width: 100%;
-    background: #fff;
-    border-radius: 1.2rem;
-    box-shadow: 0 20px 50px rgba(0,0,0,.08);
-    overflow: hidden;
+}
+
+#filters {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    flex-grow: 1; /* Takes up available space */
+    margin-right: 2rem; /* Gap between filters and toggle */
+}
+
+/* Hide scrollbar for filters */
+#filters::-webkit-scrollbar {
+    display: none;
+}
+
+.tax-toggle {
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    height: 3.25rem;
     padding: 1rem;
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Prevents text from breaking into two lines */
+    background-color: #fff;
+    flex-shrink: 0; /* Prevents the toggle from being squashed */
 }
 
-.show-image { flex: 1 1 45%; min-width: 250px; }
-.show-content { flex: 1 1 45%; min-width: 250px; padding: 2rem; }
-
-.show-img {
-    width: 100%;
-    height: auto; /* adjust with content */
-    object-fit: cover;
+/* Red switch color */
+.form-check-input:checked {
+    background-color: #fe424d !important;
+    border-color: #fe424d !important;
 }
 
-/* Review cards inside show page */
-.card {
-    flex: 1 1 45%;
-    min-width: 220px;
-    margin-bottom: 1rem;
+/* Mobile Fix */
+@media (max-width: 1100px) {
+    .filters-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tax-toggle {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
 }
 
-#map {
-  width: 100%;
-  border-radius: 12px;
-}
-.show-card {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+/* Container to hold both filters and toggle */
+.filters-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pushes toggle to the far right */
 }
 
-.show-left {
-  flex: 1;
+#filters {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Takes up all available space */
+    overflow-x: auto; /* Allows the icons to scroll */
+    margin-right: 2rem; /* Gap between icons and the toggle box */
 }
 
-.show-image img {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 1rem;
+/* Hide the scrollbar for a cleaner look */
+#filters::-webkit-scrollbar {
+    display: none;
 }
 
-#map {
-  height: 300px;
-  width: 100%;
-  border-radius: 12px;
+/* Professional Toggle Styling */
+.tax-toggle {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    height: 3.25rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    white-space: nowrap; /* Prevents text from wrapping to 2 lines */
+    box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    margin-bottom: 1.4rem;
 }
 
-#map {
-  width: 100%;
-  height: 300px;
-  border-radius: 12px;
-  margin-top: 1rem;
-}.show-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* Airbnb Red Switch */
+.form-check-input:checked {
+    background-color: #fe424d !important;
+    border-color: #fe424d !important;
 }
 
-/* Image */
-.show-image img {
-  width: 100%;
-  height: 420px;
-  object-fit: cover;
-  border-radius: 12px;
+/* Mobile Fix: Stack them if screen is too small */
+@media (max-width: 992px) {
+    .filters-main {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tax-toggle {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: space-between;
+        margin-left:0rem ;
+    }
 }
 
-/* Map */
-#map {
-  width: 100%;
-  height: 280px;      /* 👈 fixed height */
-  border-radius: 12px;
-  overflow: hidden;
+/* Navbar Search Styling */
+.search-form {
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 0.1rem 0.5rem 0.1rem 1rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+    background-color: #fff;
 }
 
-.show-left {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.search-input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 0.85rem;
+    width: 200px;
 }
 
-#map {
-  height: 220px;
-  width: 100%;
-  border-radius: 12px;
+.search-btn {
+    background-color: #fe424d !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.8rem !important;
+}
+
+.search-btn i {
+    color: white !important;
+}
+
+@media (max-width: 768px) {
+    .search-form {
+        margin: 1rem 0;
+    }
 }
