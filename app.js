@@ -3,11 +3,12 @@ if (process.env.NODE_ENV != "production") {
 }
 
 
-
 // ===== Core Packages =====
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+
+
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
@@ -26,7 +27,7 @@ const userRouter = require("./routes/user.js");
 
 const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-
+app.use(express.static("public"));
 // ================= DATABASE =================
 async function main() {
   await mongoose.connect(MONGO_URL);

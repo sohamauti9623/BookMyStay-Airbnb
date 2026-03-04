@@ -1,5 +1,6 @@
 const Listing = require("../models/listings");
 const ExpressError = require("../utils/ExpressError");
+const axios = require("axios");
 
 /* =======================
    INDEX – show all listings
@@ -17,7 +18,7 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 /* =======================
-   CREATE – multer + cloudinary ONLY
+   CREATE – image + geocoding
 ======================= */
 module.exports.createNew = async (req, res) => {
   if (!req.file) {
@@ -27,9 +28,39 @@ module.exports.createNew = async (req, res) => {
   const listing = new Listing(req.body.listing);
   listing.owner = req.user._id;
 
+  // Image from Cloudinary
   listing.image = {
-    url: req.file.path,       // Cloudinary URL
+    url: req.file.path,
     filename: req.file.filename,
+  };
+
+  // 🌍 REAL-TIME GEOCODING
+  const locationText = `${listing.location}, ${listing.country}`;
+
+  const geoRes = await axios.get(
+    "https://nominatim.openstreetmap.org/search",
+    {
+      params: {
+        q: locationText,
+        format: "json",
+        limit: 1,
+      },
+      headers: {
+        "User-Agent": "wanderlust-app", // REQUIRED by Nominatim
+      },
+    }
+  );
+
+  if (!geoRes.data.length) {
+    throw new ExpressError(400, "Invalid location");
+  }
+
+  listing.geometry = {
+    type: "Point",
+    coordinates: [
+      parseFloat(geoRes.data[0].lon), // lng
+      parseFloat(geoRes.data[0].lat), // lat
+    ],
   };
 
   await listing.save();
@@ -71,12 +102,8 @@ module.exports.editListing = async (req, res) => {
 
   let originalImageUrl = listing.image.url;
 
-  // apply Cloudinary resize ONLY if cloudinary image
   if (originalImageUrl.includes("cloudinary")) {
-    originalImageUrl = originalImageUrl.replace(
-      "/upload",
-      "/upload/w_250"
-    );
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
   }
 
   res.render("listings/edit.ejs", { listing, originalImageUrl });
@@ -98,7 +125,6 @@ module.exports.updateListing = async (req, res) => {
     throw new ExpressError(404, "Listing not found");
   }
 
-  // update image ONLY if new file uploaded
   if (req.file) {
     listing.image = {
       url: req.file.path,
