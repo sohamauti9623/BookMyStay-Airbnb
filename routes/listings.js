@@ -17,10 +17,12 @@ const { isOwner, isLoggedIn, validateListing } = require("../middleware.js");
 router
   .route("/")
   .get(wrapAsync(listingController.index)) // INDEX - Show all listings
-  // .post(isLoggedIn, validateListing, wrapAsync(listingController.createNew))
-  .post(upload.single("listing[image]"), (req, res) => {
-    res.send(req.file);
-  }); // CREATE - Add new listing
+  .post(
+    isLoggedIn,
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(listingController.createNew),
+  ); // CREATE - Add new listing
 
 // NEW - Form to create a new listing
 router.get("/new", isLoggedIn, listingController.renderNewForm);
@@ -32,10 +34,11 @@ router
   .put(
     isLoggedIn,
     isOwner,
+    upload.single("listing[image]"),
     validateListing,
     wrapAsync(listingController.updateListing),
   ) // UPDATE - Update listing
-  .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyLinsting)); // DELETE - Delete listing
+  .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing)); // DELETE - Delete listing
 
 // EDIT - Form to edit a listing
 router.get(
