@@ -154,22 +154,33 @@ module.exports.destroyListing = async (req, res) => {
 };
 
 // GET Index
+/* =======================
+   INDEX – Modified with Flash Notifications
+======================= */
 module.exports.index = async (req, res) => {
-    let { search } = req.query;
-    let allListings;
+  const { search } = req.query;
+  
+  // 1. Build the query object
+  let query = {};
+  if (search) {
+    const safeSearch = search.trim(); // Remove accidental spaces
+    query = {
+      $or: [
+        { title: { $regex: safeSearch, $options: "i" } },
+        { location: { $regex: safeSearch, $options: "i" } },
+        { country: { $regex: safeSearch, $options: "i" } }
+      ]
+    };
+  }
 
-    if (search) {
-        // Find listings where title or location matches the search query (case-insensitive)
-        allListings = await Listing.find({
-            $or: [
-                { title: { $regex: search, $options: "i" } },
-                { location: { $regex: search, $options: "i" } },
-                { country: { $regex: search, $options: "i" } }
-            ]
-        });
-    } else {
-        allListings = await Listing.find({});
-    }
-    
-    res.render("listings/index.ejs", { allListings });
+  // 2. Fetch listings
+  const allListings = await Listing.find(query);
+
+  // 3. Handle Empty Results (Professional Touch)
+  if (search && allListings.length === 0) {
+    req.flash("error", `No results found for "${search}"`);
+    return res.redirect("/listings");
+  }
+
+  res.render("listings/index.ejs", { allListings });
 };
