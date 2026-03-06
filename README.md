@@ -1,31 +1,41 @@
-🌐 BookMyStay – Airbnb Inspired Platform
+📌 BookMyStay‑Airbnb
 
-BookMyStay is a modern, full-stack property rental platform that lets users explore, review, and manage vacation rentals seamlessly — a project inspired by Airbnb. Built with Node.js, Express, MongoDB, and EJS, it demonstrates a solid understanding of backend architecture, RESTful routing, and dynamic frontend rendering.
+A full‑stack Airbnb‑style property booking & review platform where users can explore, add, and review listings — built with Node.js, Express, MongoDB & EJS and enhanced with Power BI analytics.
 
-🚀 Live Demo
+🔗 Live Demo: https://project-29-gb2l.onrender.com/listings
 
-View Live Site
+🌟 Features
 
-(Replace # with your deployed URL)
+🧑‍💻 User Authentication (Sign‑up & Login)
 
-🎨 Key Features
+📍 Property Listings (Add, Edit, Delete)
 
-Browse and search property listings with detailed information
+⭐ User Reviews & Ratings
 
-Add, edit, and delete listings (CRUD functionality)
+🔗 RESTful API Endpoints
 
-User reviews for listings with dynamic rating system
+🎨 Clean UI using EJS & Bootstrap
 
-Flash messages for instant feedback on actions
+🛡 Server‑side validation (Joi)
 
-Fully responsive design with Bootstrap 5
+📊 Analytics Dashboard with Power BI
 
-Server-side validation with Joi for clean and safe inputs
+🔁 Full CRUD support & proper error handling
 
-Centralized error handling for smooth user experience
 
-🛠️ Tech Stack
-Frontend	Backend	Database	Utilities
-EJS Templates	Node.js & Express	MongoDB & Mongoose	Joi (Validation)
-Bootstrap 5	RESTful Routing	Atlas / Local DB	express-session, connect-flash
-Font Awesome	Async Error Handling	–	method-override
+
+| Layer      | Technology                    |
+| ---------- | ----------------------------- |
+| Backend    | **Node.js**, **Express.js**   |
+| Database   | **MongoDB** with **Mongoose** |
+| Frontend   | **EJS**, **Bootstrap**        |
+| Validation | **Joi**                       |
+| Analytics  | **Power BI**                  |
+| Deployment | **Render**                    |
+
+
+🌍 Live Demo
+
+👉 Explore listings here: https://project-29-gb2l.onrender.com/listings
+
+You can browse available stays, add new ones (once logged in), and test reviews!
