@@ -1,4 +1,11 @@
 {
+  
+  
+  "engines": {"node": "24.13.0"},
+
+
+
+
   "name": "major-project",
   "version": "1.0.0",
   "description": "",

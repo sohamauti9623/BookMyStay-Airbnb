@@ -1,9 +1,11 @@
-const dns = require('node:dns');
-dns.setServers(['8.8.8.8', '8.8.4.4']); // Forces Node to use Google DNS
+const dns = require("node:dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]); // Forces Node to use Google DNS
 require("dns").setDefaultResultOrder("ipv4first");
 // ================= ENV =================
 require("dotenv").config();
-
+if (!process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET missing in .env file");
+}
 // ================= CORE =================
 const express = require("express");
 const mongoose = require("mongoose");
@@ -13,6 +15,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const MongoStore = require("connect-mongo").default;
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -39,10 +42,10 @@ console.log(process.env.ATLASDB_URL);
 async function connectDB() {
   try {
     console.log("🔌 Connecting to DB...");
-    
+
     // Safety check for the URL
     if (!dbUrl) {
-        throw new Error("ATLASDB_URL is not defined in your .env file");
+      throw new Error("ATLASDB_URL is not defined in your .env file");
     }
 
     // Connect using modern defaults (SRV support)
@@ -52,8 +55,8 @@ async function connectDB() {
   } catch (err) {
     console.error("❌ MongoDB connection failed");
     console.error(`Error details: ${err.message}`);
-    
-    // If you see "MongooseServerSelectionError", 
+
+    // If you see "MongooseServerSelectionError",
     // it's almost always a Whitelist/DNS/Firewall issue.
     process.exit(1);
   }
@@ -70,8 +73,20 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // ================= SESSION =================
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SESSION_SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+store.on("error",(err)=>{
+  console.log("ERROR IN THE MONGO SESSION", err);
+});
+
 const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "devsecret",
+  store,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
