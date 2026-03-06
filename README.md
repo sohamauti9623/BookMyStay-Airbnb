@@ -1,45 +1,31 @@
-🏨 BookMyStay
+🌐 BookMyStay – Airbnb Inspired Platform
 
-A full-stack property booking and analytics platform built with Node.js, Express, MongoDB, and Power BI.
+BookMyStay is a modern, full-stack property rental platform that lets users explore, review, and manage vacation rentals seamlessly — a project inspired by Airbnb. Built with Node.js, Express, MongoDB, and EJS, it demonstrates a solid understanding of backend architecture, RESTful routing, and dynamic frontend rendering.
 
-BookMyStay lets users list, explore, and review properties while providing real-time business insights through Power BI dashboards.
+🚀 Live Demo
 
-🚀 Features
+View Live Site
 
-User authentication
+(Replace # with your deployed URL)
 
-Property listings & reviews
+🎨 Key Features
 
-Create, update & delete properties
+Browse and search property listings with detailed information
 
-MongoDB-powered backend
+Add, edit, and delete listings (CRUD functionality)
 
-Power BI data visualization
+User reviews for listings with dynamic rating system
 
-🛠 Tech Stack
+Flash messages for instant feedback on actions
 
-Node.js, Express, MongoDB, EJS, Power BI, Git, Bootstrap
+Fully responsive design with Bootstrap 5
 
-⚙️ Run Locally
-git clone https://github.com/your-username/bookmystay.git
-cd bookmystay
-npm install
-npm start
+Server-side validation with Joi for clean and safe inputs
 
-📊 Power BI
+Centralized error handling for smooth user experience
 
-Live data from MongoDB is sent to Power BI for:
-
-Revenue tracking
-
-Price analysis
-
-Top properties
-
-👤 Author
-
-Soham Auti
-
-⭐ Like this project?
-
-Star ⭐ the repo and feel free to contribute!
+🛠️ Tech Stack
+Frontend	Backend	Database	Utilities
+EJS Templates	Node.js & Express	MongoDB & Mongoose	Joi (Validation)
+Bootstrap 5	RESTful Routing	Atlas / Local DB	express-session, connect-flash
+Font Awesome	Async Error Handling	–	method-override
