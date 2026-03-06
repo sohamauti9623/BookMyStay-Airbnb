@@ -66,3 +66,23 @@ module.exports.validateReview = (req, res, next) => {
 };
 
  
+module.exports.isReviewOwner = async (req, res, next) => {
+  try {
+    const { reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+      req.flash("error", "Review does not exist");
+      return res.redirect("back");
+    }
+
+    if (!res.locals.currUser || !review.author.equals(res.locals.currUser._id)) {
+      req.flash("error", "You don't have permission to delete this review");
+      return res.redirect("back");
+    }
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+};

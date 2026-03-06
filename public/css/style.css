@@ -383,3 +383,127 @@ form { background: #fff; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 
     }
 }
 
+.f-info-social a {
+    margin: 0 10px;       /* space between icons */
+    transition: transform 0.3s, color 0.3s;
+    color: #222;          /* default icon color */
+}
+
+.f-info-social a:hover {
+    transform: translateY(-3px); /* small lift on hover */
+    color: #fe424d;              /* brand red on hover */
+}
+
+/* ======================= GLOBAL MOBILE FIXES ======================= */
+@media (max-width: 992px) {
+    .container { width: 95%; padding: 0 1rem; }
+    h3, h4 { font-size: 1.2rem; }
+    form .form-label { font-size: 0.9rem; }
+    .btn { font-size: 0.9rem; padding: 0.5rem 1rem; }
+    input.form-control, textarea.form-control { font-size: 0.9rem; }
+}
+@media (max-width: 768px) {
+    #filters {
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        justify-content: center;
+    }
+
+    .filter {
+        flex: 0 0 45%;  /* two icons per row */
+        margin: 0.5rem;
+        text-align: center;
+    }
+
+    .tax-toggle {
+        width: 100%;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+}
+@media (max-width: 768px) {
+    .row.row-cols-xxl-4,
+    .row.row-cols-lg-3,
+    .row.row-cols-md-2,
+    .row.row-cols-sm-1 {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .listing-card .card-img-top {
+        height: 16rem !important;  /* reduce height for mobile */
+    }
+}
+@media (max-width: 768px) {
+    form .row .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    form .btn {
+        width: 100%;
+        padding: 0.6rem;
+    }
+}
+@media (max-width: 992px) {
+    .show-card {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .show-left, .show-content {
+        flex: 1 1 100%;
+    }
+
+    .show-img {
+        height: 300px !important;
+    }
+
+    #map {
+        height: 250px !important;
+    }
+
+    .show-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+@media (max-width: 768px) {
+    .f-info {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem 0;
+        text-align: center;
+    }
+
+    .f-info-social {
+        order: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .f-info-brand {
+        order: 2;
+        margin-bottom: 0.5rem;
+    }
+
+    .f-info-links {
+        order: 3;
+    }
+
+    .f-info-social a {
+        margin: 0 8px;
+        font-size: 1.4rem;
+    }
+}
+@media (max-width: 768px) {
+    .btn, .btn-dark, .btn-outline-dark {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+
+    input.form-control, textarea.form-control {
+        font-size: 0.9rem;
+    }
+}

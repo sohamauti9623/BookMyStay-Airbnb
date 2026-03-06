@@ -14,6 +14,7 @@ module.exports.showReview = async (req, res) => {
 };
 
 module.exports.destroyReview = async (req, res) => {
+  
   const { id, reviewId } = req.params;
   await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
   await Review.findByIdAndDelete(reviewId);
